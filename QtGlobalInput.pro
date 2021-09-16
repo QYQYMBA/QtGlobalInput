@@ -1,4 +1,4 @@
-QT -= gui
+QT += gui
 
 TEMPLATE = lib
 CONFIG += staticlib
@@ -10,10 +10,26 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/globalinputfilter.cpp \
     src/qtglobalinput.cpp
 
 HEADERS += \
+    src/globalinputfilter.h \
     src/qtglobalinput.h
+
+LIBS += \
+    -luser32 \
+    -lKernel32 \
+    -lgdi32 \
+    -lwinspool \
+    -lcomdlg32 \
+    -ladvapi32 \
+    -lshell32 \
+    -lole32 \
+    -loleaut32 \
+    -luuid \
+    -lodbc32 \
+    -lodbccp32
 
 # Default rules for deployment.
 unix {
