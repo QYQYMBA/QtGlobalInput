@@ -12,10 +12,11 @@ QtGlobalInput::QtGlobalInput(HWND hwnd)
     registerMouseInput();
 }
 
-uint QtGlobalInput::setKeyPress(uint vkCode, EventType type, std::function<void(RAWKEYBOARD)> callback)
+template<typename A, typename B>
+uint QtGlobalInput::setKeyPress(uint vkCode, EventType type, A callback, B obj)
 {
     KeyHook kh;
-    kh.callback = callback;
+    kh.callback = std::bind(callback, obj);
     kh.vkCode = vkCode;
     kh.type = type;
     kh.id = _id++;
@@ -30,10 +31,11 @@ uint QtGlobalInput::setKeyPress(uint vkCode, EventType type, std::function<void(
     return kh.id;
 }
 
-uint QtGlobalInput::setMousePress(uint vkCode, EventType type, std::function<void(RAWMOUSE)> callback)
+template<typename A, typename B>
+uint QtGlobalInput::setMousePress(uint vkCode, EventType type, A callback, B obj)
 {
     MouseHook mh;
-    mh.callback = callback;
+    mh.callback = std::bind(callback, obj);
     mh.vkCode = vkCode;
     mh.type = type;
     mh.id = _id++;

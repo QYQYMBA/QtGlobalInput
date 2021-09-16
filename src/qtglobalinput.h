@@ -19,8 +19,12 @@ public:
     };
 
     QtGlobalInput(HWND hwnd);
-    uint setKeyPress(uint vkCode, EventType type, std::function<void(RAWKEYBOARD)> callback);
-    uint setMousePress(uint vkCode, EventType type, std::function<void(RAWMOUSE)> callback);
+
+    template<typename A, typename B>
+    uint setKeyPress(uint vkCode, EventType type, A callback, B obj);
+
+    template<typename A, typename B>
+    uint setMousePress(uint vkCode, EventType type, A callback, B obj);
 
     bool removeKeyPress(uint id);
     bool removeMousePress(uint id);
