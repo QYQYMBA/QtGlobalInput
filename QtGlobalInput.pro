@@ -15,7 +15,8 @@ SOURCES += \
 
 HEADERS += \
     src/globalinputfilter.h \
-    src/qtglobalinput.h
+    src/qtglobalinput.h \
+    src/qtglobalinput.tpp
 
 LIBS += \
     -luser32 \
