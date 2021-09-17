@@ -21,10 +21,10 @@ public:
     QtGlobalInput(HWND hwnd);
 
     template<typename A, typename B>
-    uint setKeyPress(uint vkCode, EventType type, A callback, B obj);
+    uint setKeyPress(uint vkCode, EventType type, A callback, B obj, bool async = false);
 
     template<typename A, typename B>
-    uint setMousePress(uint vkCode, EventType type, A callback, B obj);
+    uint setMousePress(uint vkCode, EventType type, A callback, B obj, bool async = false);
 
     bool removeKeyPress(uint id);
     bool removeMousePress(uint id);
@@ -36,6 +36,7 @@ private:
         uint vkCode;
         EventType type;
         std::function<void(RAWKEYBOARD)> callback;
+        bool async;
     };
 
     struct MouseHook{
@@ -43,6 +44,7 @@ private:
         uint vkCode;
         EventType type;
         std::function<void(RAWMOUSE)> callback;
+        bool async;
     };
 
     void installNativeEventFilter();

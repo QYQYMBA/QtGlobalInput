@@ -31,7 +31,6 @@ bool GlobalInputFilter::nativeEventFilter(const QByteArray &eventType, void *mes
 
         if (raw->header.dwType == RIM_TYPEKEYBOARD || raw->header.dwType == RIM_TYPEMOUSE)
         {
-            //QtConcurrent::run(sendKeyInput, _layoutController, raw->data.keyboard);
             ((QtGlobalInput*) _qtglobalinput)->newInput(*raw);
         }
         break;

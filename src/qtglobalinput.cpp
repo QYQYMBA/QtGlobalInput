@@ -1,6 +1,8 @@
 #include "qtglobalinput.h"
 
 #include <QAbstractEventDispatcher>
+#include <QtConcurrent/QtConcurrent>
+
 
 QtGlobalInput::QtGlobalInput(HWND hwnd)
     :_globalInputFilter(this)
@@ -59,7 +61,14 @@ void QtGlobalInput::newInput(RAWINPUT raw)
                     || (_keyHooks[i].type == EventType::ButtonUp && rk.Message == WM_KEYUP)
                     || (_keyHooks[i].type == EventType::ButtonUp && rk.Message == WM_SYSKEYUP))
                 if(_keyHooks[i].vkCode == 0 || _keyHooks[i].vkCode == rk.VKey)
-                    _keyHooks[i].callback(rk);
+                {
+                    if(!_keyHooks[i].async)
+                        _keyHooks[i].callback(rk);
+                    else
+                    {
+                        QtConcurrent::run(_keyHooks[i].callback, rk);
+                    }
+                }
         }
     }
 
@@ -70,7 +79,14 @@ void QtGlobalInput::newInput(RAWINPUT raw)
         for(qsizetype i = 0; i < _mouseHooks.size(); i++)
         {
             if(_mouseHooks[i].vkCode == 0 || false/* Placeholder */)
-                _mouseHooks[i].callback(rm);
+            {
+                if(!_mouseHooks[i].async)
+                    _mouseHooks[i].callback(rm);
+                else
+                {
+                    QtConcurrent::run(_mouseHooks[i].callback, rm);
+                }
+            }
         }
     }
 }
