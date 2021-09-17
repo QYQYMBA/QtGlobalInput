@@ -4,7 +4,7 @@ template<typename A, typename B>
 uint QtGlobalInput::setKeyPress(uint vkCode, EventType type, A callback, B obj)
 {
     KeyHook kh;
-    kh.callback = std::bind(callback, obj);
+    kh.callback = std::bind(callback, obj, std::placeholders::_1);
     kh.vkCode = vkCode;
     kh.type = type;
     kh.id = _id++;
@@ -23,7 +23,7 @@ template<typename A, typename B>
 uint QtGlobalInput::setMousePress(uint vkCode, EventType type, A callback, B obj)
 {
     MouseHook mh;
-    mh.callback = std::bind(callback, obj);
+    mh.callback = std::bind(callback, obj, std::placeholders::_1);
     mh.vkCode = vkCode;
     mh.type = type;
     mh.id = _id++;
