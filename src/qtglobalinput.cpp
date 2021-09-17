@@ -78,15 +78,41 @@ void QtGlobalInput::newInput(RAWINPUT raw)
 
         for(qsizetype i = 0; i < _mouseHooks.size(); i++)
         {
-            if(_mouseHooks[i].vkCode == 0 || false/* Placeholder */)
+            bool down = (rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)
+                    || (rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN)
+                    || (rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_DOWN);
+
+            bool up = (rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP)
+                    || (rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP)
+                    || (rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_UP);
+
+            uint button;
+
+            if(rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP || rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)
             {
-                if(!_mouseHooks[i].async)
-                    _mouseHooks[i].callback(rm);
-                else
-                {
-                    QtConcurrent::run(_mouseHooks[i].callback, rm);
-                }
+                    button = VK_LBUTTON;
             }
+            if(rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_UP || rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_DOWN)
+            {
+                    button = VK_MBUTTON;
+            }
+            if(rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP || rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN)
+            {
+                    button = VK_RBUTTON;
+            }
+
+            if(_mouseHooks[i].type == EventType::All
+                    || (_mouseHooks[i].type == EventType::ButtonDown && down)
+                    || (_mouseHooks[i].type == EventType::ButtonUp && up))
+                if(_mouseHooks[i].vkCode == button)
+                {
+                    if(!_mouseHooks[i].async)
+                        _mouseHooks[i].callback(rm);
+                    else
+                    {
+                        QtConcurrent::run(_mouseHooks[i].callback, rm);
+                    }
+                }
         }
     }
 }
