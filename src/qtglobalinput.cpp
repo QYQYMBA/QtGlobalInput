@@ -86,6 +86,9 @@ void QtGlobalInput::newInput(RAWINPUT raw)
                     || (rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP)
                     || (rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_UP);
 
+            if(!up && !down)
+                return;
+
             uint button;
 
             if(rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP || rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)
@@ -104,7 +107,7 @@ void QtGlobalInput::newInput(RAWINPUT raw)
             if(_mouseHooks[i].type == EventType::All
                     || (_mouseHooks[i].type == EventType::ButtonDown && down)
                     || (_mouseHooks[i].type == EventType::ButtonUp && up))
-                if(_mouseHooks[i].vkCode == button)
+                if(_mouseHooks[i].vkCode == button || _mouseHooks[i].vkCode == 0)
                 {
                     if(!_mouseHooks[i].async)
                         _mouseHooks[i].callback(rm);
