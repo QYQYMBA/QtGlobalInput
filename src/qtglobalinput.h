@@ -119,7 +119,7 @@ uint QtGlobalInput::setMousePress(uint vkCode, EventType type, A callback, B obj
 template<typename A, typename B>
 uint QtGlobalInput::setWindowSwitch(A callback, B obj)
 {
-    return _windowSwitch.setWindowSwitch(callback, obj, _id++);
+    return _windowSwitch.setWindowSwitch(callback, obj);
 }
 
 #endif // QTGLOBALINPUT_H

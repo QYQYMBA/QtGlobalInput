@@ -18,7 +18,7 @@ public:
     static QVector<WindowSwitchHook> windowSwitches;
 
     template<typename A, typename B>
-    uint setWindowSwitch(A callback, B obj, uint id);
+    uint setWindowSwitch(A callback, B obj);
 
     bool removeWindowSwitch(uint id);
 
@@ -40,14 +40,16 @@ public:
 
 private:
     HWINEVENTHOOK winEvent = NULL;
+
+    static int _id;
 };
 
 template<typename A, typename B>
-uint WindowSwitch::setWindowSwitch(A callback, B obj, uint id)
+uint WindowSwitch::setWindowSwitch(A callback, B obj)
 {
     WindowSwitchHook ws;
     ws.callback = std::bind(callback, obj, std::placeholders::_1);
-    ws.id = id;
+    ws.id = ++_id;
 
     windowSwitches.push_back(ws);
 

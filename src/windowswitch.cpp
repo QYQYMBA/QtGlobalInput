@@ -2,6 +2,8 @@
 
 QVector<WindowSwitch::WindowSwitchHook> WindowSwitch::windowSwitches = QVector<WindowSwitch::WindowSwitchHook>();
 
+int WindowSwitch::_id = 0;
+
 bool WindowSwitch::removeWindowSwitch(uint id)
 {
     for(qsizetype i = 0; i < windowSwitches.size(); i++)
@@ -11,10 +13,10 @@ bool WindowSwitch::removeWindowSwitch(uint id)
             windowSwitches.removeAt(i);
             if(windowSwitches.empty())
             {
-                UnhookWinEvent(winEvent);
+                return UnhookWinEvent(winEvent);
             }
             break;
         }
     }
-    return 0;
+    return false;
 }

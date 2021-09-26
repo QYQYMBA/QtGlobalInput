@@ -30,11 +30,11 @@ bool QtGlobalInput::removeKeyPress(uint id)
             if(_keyHooks.empty() && _mouseHooks.empty())
             {
                 removeNativeEventFilter();
+                return true;
             }
-            break;
         }
     }
-    return true;
+    return false;
 }
 
 bool QtGlobalInput::removeMousePress(uint id)
@@ -47,11 +47,12 @@ bool QtGlobalInput::removeMousePress(uint id)
             if(_keyHooks.empty() && _mouseHooks.empty())
             {
                 removeNativeEventFilter();
+                return true;
             }
             break;
         }
     }
-    return true;
+    return false;
 }
 
 bool QtGlobalInput::removeWindowSwitch(uint id)
