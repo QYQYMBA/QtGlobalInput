@@ -14,6 +14,13 @@ QtGlobalInput::QtGlobalInput(HWND hwnd)
     registerMouseInput();
 }
 
+QtGlobalInput::~QtGlobalInput()
+{
+    removeMouseInput();
+    removeKeyboardInput();
+    removeNativeEventFilter();
+}
+
 bool QtGlobalInput::removeKeyPress(uint id)
 {
     for(qsizetype i = 0; i < _keyHooks.size(); i++)
@@ -76,33 +83,33 @@ void QtGlobalInput::newInput(RAWINPUT raw)
     {
         RAWMOUSE rm = raw.data.mouse;
 
+        bool down = (rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)
+                || (rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN)
+                || (rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_DOWN);
+
+        bool up = (rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP)
+                || (rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP)
+                || (rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_UP);
+
+        uint button;
+
+        if(rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP || rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)
+        {
+                button = VK_LBUTTON;
+        }
+        if(rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_UP || rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_DOWN)
+        {
+                button = VK_MBUTTON;
+        }
+        if(rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP || rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN)
+        {
+                button = VK_RBUTTON;
+        }
+
         for(qsizetype i = 0; i < _mouseHooks.size(); i++)
         {
-            bool down = (rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)
-                    || (rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN)
-                    || (rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_DOWN);
-
-            bool up = (rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP)
-                    || (rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP)
-                    || (rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_UP);
-
             if(!up && !down)
                 return;
-
-            uint button;
-
-            if(rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP || rm.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)
-            {
-                    button = VK_LBUTTON;
-            }
-            if(rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_UP || rm.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_DOWN)
-            {
-                    button = VK_MBUTTON;
-            }
-            if(rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP || rm.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN)
-            {
-                    button = VK_RBUTTON;
-            }
 
             if(_mouseHooks[i].type == EventType::All
                     || (_mouseHooks[i].type == EventType::ButtonDown && down)

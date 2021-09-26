@@ -19,6 +19,7 @@ public:
     };
 
     QtGlobalInput(HWND hwnd);
+    ~QtGlobalInput();
 
     template<typename A, typename B>
     uint setKeyPress(uint vkCode, EventType type, A callback, B obj, bool async = false);
