@@ -11,11 +11,13 @@ CONFIG += c++11
 
 SOURCES += \
     src/globalinputfilter.cpp \
-    src/qtglobalinput.cpp
+    src/qtglobalinput.cpp \
+    src/windowswitch.cpp
 
 HEADERS += \
     src/globalinputfilter.h \
-    src/qtglobalinput.h
+    src/qtglobalinput.h \
+    src/windowswitch.h
 
 LIBS += \
     -luser32 \
