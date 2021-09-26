@@ -7,6 +7,7 @@
 #include <functional>
 
 #include "globalinputfilter.h"
+#include "windowswitch.h"
 
 class QtGlobalInput
 {
@@ -27,10 +28,15 @@ public:
     template<typename A, typename B>
     uint setMousePress(uint vkCode, EventType type, A callback, B obj, bool async = false);
 
+    template<typename A, typename B>
+    uint setWindowSwitch(A callback, B obj);
+
     bool removeKeyPress(uint id);
     bool removeMousePress(uint id);
+    bool removeWindowSwitch(uint id);
 
     void newInput(RAWINPUT raw); //Function to be called from NativeEventFilter
+
 private:
     struct KeyHook{
         uint id;
@@ -58,6 +64,7 @@ private:
     bool removeKeyboardInput();
 
     GlobalInputFilter _globalInputFilter;
+    WindowSwitch _windowSwitch;
 
     QVector<MouseHook> _mouseHooks;
     QVector<KeyHook> _keyHooks;
@@ -107,6 +114,12 @@ uint QtGlobalInput::setMousePress(uint vkCode, EventType type, A callback, B obj
     }
 
     return mh.id;
+}
+
+template<typename A, typename B>
+uint QtGlobalInput::setWindowSwitch(A callback, B obj)
+{
+    return _windowSwitch.setWindowSwitch(callback, obj, _id++);
 }
 
 #endif // QTGLOBALINPUT_H

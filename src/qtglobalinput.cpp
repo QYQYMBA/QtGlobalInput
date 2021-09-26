@@ -3,7 +3,6 @@
 #include <QAbstractEventDispatcher>
 #include <QtConcurrent/QtConcurrent>
 
-
 QtGlobalInput::QtGlobalInput(HWND hwnd)
     :_globalInputFilter(this)
     ,_hwnd(hwnd)
@@ -35,7 +34,7 @@ bool QtGlobalInput::removeKeyPress(uint id)
             break;
         }
     }
-    return 0;
+    return true;
 }
 
 bool QtGlobalInput::removeMousePress(uint id)
@@ -52,7 +51,12 @@ bool QtGlobalInput::removeMousePress(uint id)
             break;
         }
     }
-    return 0;
+    return true;
+}
+
+bool QtGlobalInput::removeWindowSwitch(uint id)
+{
+    return _windowSwitch.removeWindowSwitch(id);
 }
 
 void QtGlobalInput::newInput(RAWINPUT raw)
