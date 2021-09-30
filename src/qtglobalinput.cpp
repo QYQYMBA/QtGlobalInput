@@ -6,6 +6,12 @@
 uint QtGlobalInput::_id = 0;
 bool QtGlobalInput::_nativeFilterInstalled = false;
 
+QVector<QtGlobalInput::MouseHook> QtGlobalInput::_mouseHooks;
+QVector<QtGlobalInput::KeyHook> QtGlobalInput::_keyHooks;
+WindowSwitch QtGlobalInput::_windowSwitch;
+HWND QtGlobalInput::_hwnd;
+GlobalInputFilter QtGlobalInput::_globalInputFilter;
+
 void QtGlobalInput::init(HWND hwnd)
 {
     _hwnd = hwnd;

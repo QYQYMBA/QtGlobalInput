@@ -19,6 +19,22 @@ public:
         ButtonUp
     };
 
+    struct KeyHook{
+        uint id;
+        uint vkCode;
+        EventType type;
+        std::function<void(RAWKEYBOARD)> callback;
+        bool async;
+    };
+
+    struct MouseHook{
+        uint id;
+        uint vkCode;
+        EventType type;
+        std::function<void(RAWMOUSE)> callback;
+        bool async;
+    };
+
     static void init(HWND hwnd);
     static void deinitialize();
 
@@ -39,22 +55,6 @@ public:
 
 private:
     QtGlobalInput();
-
-    struct KeyHook{
-        uint id;
-        uint vkCode;
-        EventType type;
-        std::function<void(RAWKEYBOARD)> callback;
-        bool async;
-    };
-
-    struct MouseHook{
-        uint id;
-        uint vkCode;
-        EventType type;
-        std::function<void(RAWMOUSE)> callback;
-        bool async;
-    };
 
     static void installNativeEventFilter();
     static void removeNativeEventFilter();
