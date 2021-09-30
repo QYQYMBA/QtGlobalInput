@@ -8,7 +8,6 @@ bool QtGlobalInput::_nativeFilterInstalled = false;
 
 QVector<QtGlobalInput::MouseHook> QtGlobalInput::_mouseHooks;
 QVector<QtGlobalInput::KeyHook> QtGlobalInput::_keyHooks;
-WindowSwitch QtGlobalInput::_windowSwitch;
 HWND QtGlobalInput::_hwnd;
 GlobalInputFilter QtGlobalInput::_globalInputFilter;
 
@@ -64,7 +63,7 @@ bool QtGlobalInput::removeMousePress(uint id)
 
 bool QtGlobalInput::removeWindowSwitch(uint id)
 {
-    return _windowSwitch.removeWindowSwitch(id);
+    return WindowSwitch::removeWindowSwitch(id);
 }
 
 void QtGlobalInput::newInput(RAWINPUT raw)

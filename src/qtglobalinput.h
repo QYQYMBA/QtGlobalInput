@@ -66,7 +66,6 @@ private:
     static bool removeKeyboardInput();
 
     static GlobalInputFilter _globalInputFilter;
-    static WindowSwitch _windowSwitch;
 
     static QVector<MouseHook> _mouseHooks;
     static QVector<KeyHook> _keyHooks;
@@ -121,7 +120,7 @@ uint QtGlobalInput::setMousePress(uint vkCode, EventType type, A callback, B obj
 template<typename A, typename B>
 uint QtGlobalInput::setWindowSwitch(A callback, B obj)
 {
-    return _windowSwitch.setWindowSwitch(callback, obj);
+    return WindowSwitch::setWindowSwitch(callback, obj);
 }
 
 #endif // QTGLOBALINPUT_H
