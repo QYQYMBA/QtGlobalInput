@@ -3,17 +3,18 @@
 #include <QAbstractEventDispatcher>
 #include <QtConcurrent/QtConcurrent>
 
-QtGlobalInput::QtGlobalInput(HWND hwnd)
-    :_globalInputFilter(this)
-    ,_hwnd(hwnd)
-    ,_id(0)
-    ,_nativeFilterInstalled(false)
+uint QtGlobalInput::_id = 0;
+bool QtGlobalInput::_nativeFilterInstalled = false;
+
+void QtGlobalInput::init(HWND hwnd)
 {
+    _hwnd = hwnd;
+
     registerKeyboardInput();
     registerMouseInput();
 }
 
-QtGlobalInput::~QtGlobalInput()
+void QtGlobalInput::deinitialize()
 {
     removeMouseInput();
     removeKeyboardInput();

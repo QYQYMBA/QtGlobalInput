@@ -19,25 +19,27 @@ public:
         ButtonUp
     };
 
-    QtGlobalInput(HWND hwnd);
-    ~QtGlobalInput();
+    static void init(HWND hwnd);
+    static void deinitialize();
 
     template<typename A, typename B>
-    uint setKeyPress(uint vkCode, EventType type, A callback, B obj, bool async = false);
+    static uint setKeyPress(uint vkCode, EventType type, A callback, B obj, bool async = false);
 
     template<typename A, typename B>
-    uint setMousePress(uint vkCode, EventType type, A callback, B obj, bool async = false);
+    static uint setMousePress(uint vkCode, EventType type, A callback, B obj, bool async = false);
 
     template<typename A, typename B>
-    uint setWindowSwitch(A callback, B obj);
+    static uint setWindowSwitch(A callback, B obj);
 
-    bool removeKeyPress(uint id);
-    bool removeMousePress(uint id);
-    bool removeWindowSwitch(uint id);
+    static bool removeKeyPress(uint id);
+    static bool removeMousePress(uint id);
+    static bool removeWindowSwitch(uint id);
 
-    void newInput(RAWINPUT raw); //Function to be called from NativeEventFilter
+    static void newInput(RAWINPUT raw); //Function to be called from NativeEventFilter
 
 private:
+    QtGlobalInput();
+
     struct KeyHook{
         uint id;
         uint vkCode;
@@ -54,26 +56,26 @@ private:
         bool async;
     };
 
-    void installNativeEventFilter();
-    void removeNativeEventFilter();
+    static void installNativeEventFilter();
+    static void removeNativeEventFilter();
 
-    bool registerMouseInput();
-    bool removeMouseInput();
+    static bool registerMouseInput();
+    static bool removeMouseInput();
 
-    bool registerKeyboardInput();
-    bool removeKeyboardInput();
+    static bool registerKeyboardInput();
+    static bool removeKeyboardInput();
 
-    GlobalInputFilter _globalInputFilter;
-    WindowSwitch _windowSwitch;
+    static GlobalInputFilter _globalInputFilter;
+    static WindowSwitch _windowSwitch;
 
-    QVector<MouseHook> _mouseHooks;
-    QVector<KeyHook> _keyHooks;
+    static QVector<MouseHook> _mouseHooks;
+    static QVector<KeyHook> _keyHooks;
 
-    HWND _hwnd;
+    static HWND _hwnd;
 
-    uint _id;
+    static uint _id;
 
-    bool _nativeFilterInstalled;
+    static bool _nativeFilterInstalled;
 };
 
 template<typename A, typename B>

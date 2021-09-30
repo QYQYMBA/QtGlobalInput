@@ -7,12 +7,9 @@
 class GlobalInputFilter : public QAbstractNativeEventFilter
 {
 public:
-    GlobalInputFilter(void* qgi);
+    GlobalInputFilter();
 
     virtual bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override;
-private:
-
-    void* _qtglobalinput;
 };
 
 #endif // GLOBALINPUTFILTER_H
