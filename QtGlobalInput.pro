@@ -10,13 +10,18 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/rawinput.cpp \
     src/globalinputfilter.cpp \
+    src/keyboardhooks.cpp \
     src/qtglobalinput.cpp \
     src/windowswitch.cpp
 
 HEADERS += \
+    src/rawinput.h \
     src/globalinputfilter.h \
+    src/keyboardhooks.h \
     src/qtglobalinput.h \
+    src/structures.h \
     src/windowswitch.h
 
 LIBS += \

@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-#include "qtglobalinput.h"
+#include "rawinput.h"
 GlobalInputFilter::GlobalInputFilter()
 {
 
@@ -31,7 +31,7 @@ bool GlobalInputFilter::nativeEventFilter(const QByteArray &eventType, void *mes
 
         if (raw->header.dwType == RIM_TYPEKEYBOARD || raw->header.dwType == RIM_TYPEMOUSE)
         {
-            QtGlobalInput::newInput(*raw);
+            RawInput::newInput(*raw);
         }
         break;
     }

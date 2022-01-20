@@ -6,21 +6,21 @@
 #include <windows.h>
 #include <functional>
 
+#include "structures.h"
+
 class WindowSwitch
 {   
 
 public:
-    struct WindowSwitchHook{
-        uint id;
-        std::function<void(HWND)> callback;
-    };
-
     static QVector<WindowSwitchHook> windowSwitches;
 
     template<typename A, typename B>
     static uint setWindowSwitch(A callback, B obj);
 
     static bool removeWindowSwitch(uint id);
+
+private:
+    WindowSwitch() {}
 
     static void CALLBACK WindowSwitchedCallback(
       HWINEVENTHOOK hWinEventHook,
@@ -30,15 +30,8 @@ public:
       LONG idChild,
       DWORD idEventThread,
       DWORD dwmsEventTime
-    )
-    {
-        for(size_t i = 0; i < WindowSwitch::windowSwitches.size(); i++)
-        {
-            WindowSwitch::windowSwitches[i].callback(hwnd);
-        }
-    };
+    );
 
-private:
     static HWINEVENTHOOK _winEvent;
 
     static int _id;
