@@ -83,7 +83,7 @@ This funktions will remove hook by his id and return true if hook is successfull
 1. static bool removeLlKeyboardHook(uint id);
 2. static bool removeKeyPress(uint id);
 3. static bool removeMousePress(uint id);
-4.`static bool removeWindowSwitch(uint id);
+4. static bool removeWindowSwitch(uint id);
 ```
 ## Example
 ```cpp
