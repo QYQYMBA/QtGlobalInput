@@ -1,5 +1,7 @@
 #include "keyboardhooks.h"
 
+#include <QtConcurrent/QtConcurrent>
+
 QVector<llKeyHook> llKeyboardHooks::_llKeyHooks;
 HHOOK llKeyboardHooks::_keyHook;
 bool llKeyboardHooks::_hookInstalled = false;
@@ -42,7 +44,12 @@ void llKeyboardHooks::newInput(int nCode, WPARAM wParam, LPARAM lParam)
             PKBDLLHOOKSTRUCT key  = (PKBDLLHOOKSTRUCT)lParam;
             if(_llKeyHooks[i].vkCode == 0 || _llKeyHooks[i].vkCode == key->vkCode)
             {
-                _llKeyHooks[i].callback(nCode, wParam, lParam);
+                if(!_llKeyHooks[i].async)
+                    _llKeyHooks[i].callback(nCode, wParam, lParam);
+                else
+                {
+                    QtConcurrent::run(_llKeyHooks[i].callback, nCode, wParam, lParam);
+                }
             }
         }
     }
